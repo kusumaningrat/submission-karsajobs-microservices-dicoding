@@ -1,0 +1,20 @@
+---
+# using apiVersion v1
+apiVersion: v1
+# specify type of Kubernetes resource
+kind: Service
+metadata:
+  # set service name on metadata with mongo-service value
+  name: mongo-service
+spec:
+  # set service type to NodePort
+  type: NodePort
+  # set selector from deployment for service
+  selector:
+    app: mongo
+  ports:
+  - protocol: TCP
+    port: 27017
+    targetPort: 27017
+    # set NodePort to 30005
+    nodePort: 30005

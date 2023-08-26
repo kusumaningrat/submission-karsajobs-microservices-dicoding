@@ -1,0 +1,13 @@
+---
+# using apiVersion v1
+apiVersion: v1
+# specify type of Kubernetes resource 
+kind: ConfigMap
+metadata:
+  # set config map name on metadata with mongo-configmap value
+  name: mongo-configmap
+data:
+  # mongodb storage configuration set dbPath to /data/db
+  mongo.conf: |
+    storage:
+      dbPath: /data/db
