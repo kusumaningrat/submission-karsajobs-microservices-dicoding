@@ -1,0 +1,5 @@
+# Karsajobs Backend
+https://github.com/users/kusumaningrat/packages/container/package/karsajobs
+
+# Karsajobs Frontend
+https://github.com/users/kusumaningrat/packages/container/package/karsajobs-ui
