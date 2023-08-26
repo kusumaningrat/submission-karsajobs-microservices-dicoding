@@ -1,0 +1,56 @@
+version: 2.1
+executors:
+  docker:
+    docker:
+      - image: docker:stable
+
+jobs:
+  lint-be-dockerfile:
+    executor: docker
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Run hadolint
+          command: docker run --rm -i hadolint/hadolint < backend/Dockerfile
+
+  lint-fe-dockerfile:
+    executor: docker
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Run hadolint
+          command: docker run --rm -i hadolint/hadolint < frontend/Dockerfile
+
+  build-be-karsajobs:
+    executor: docker
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run: "cd backend && sh build_push_image_karsajobs.sh"
+
+  build-fe-karsajobs:
+    executor: docker
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run: "cd frontend && sh build_push_image_karsajobs_ui.sh"
+
+  test-be-app:
+    docker:
+      - image: cimg/go:1.19.3
+    steps:
+      - checkout
+      - run: cd backend && go test -v -short --count=1 $(go list ./...)
+
+workflows:
+  backend:
+    jobs:
+      - lint-be-dockerfile
+      - test-be-app
+      - build-be-karsajobs
+  frontend:
+    jobs:
+      - lint-fe-dockerfile
+      - build-fe-karsajobs
